@@ -20,13 +20,9 @@ module.exports = {
       }
     ],
     author: {
-      name: 'John Doe',
-      email: '#',
-      telegram: '#',
-      twitter: '#',
-      github: '#',
-      rss: '#',
-      vk: '#'
+      name: 'Dave Cadwallader',
+      twitter: 'geek_dave',
+      github: 'geekdave'
     }
   },
   plugins: [
