@@ -22,7 +22,10 @@ module.exports = {
     author: {
       name: 'Dave Cadwallader',
       twitter: 'geek_dave',
-      github: 'geekdave'
+      github: 'geekdave',
+      telegram: '#',
+      rss: '#',
+      vk: '#'      
     }
   },
   plugins: [
