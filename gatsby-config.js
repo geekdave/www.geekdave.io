@@ -3,6 +3,7 @@ module.exports = {
     url: 'https://lumen.netlify.com',
     title: 'Dave Cadwallader\'s Blog',
     subtitle: 'Thoughts about technology and teaching',
+    copyright: '© All rights reserved.',
     disqusShortname: '',
     menu: [
       {
