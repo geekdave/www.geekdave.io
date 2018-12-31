@@ -15,7 +15,7 @@ engineers transformed the job of feeding the hungry, and how you can use concept
 
 <!-- more -->
 
-![kaizen: a japanese word meaning "continuous improvement"](http://i.imgur.com/dDmLj42.png)
+![kaizen: a japanese word meaning "continuous improvement"](https://i.imgur.com/dDmLj42.png)
 
 # What the Heck is Kaizen?
 
@@ -27,13 +27,13 @@ Kaizen, however, flips this association around.  With kaizen, the process of cha
 
 # Donating Kaizen
 
-Toyota is one of the many large corporations that embraces kaizen, describing it as one of their [core principles](http://blog.toyota.co.uk/kaizen-toyota-production-system).  Like many large companies, Toyota regularly makes financial contributions to charitable organizations.  But this year they decided to try something different with one of their recipients, the Food Bank for New York City.  Instead of donating money, they donated engineers to make the food bank more efficient.
+Toyota is one of the many large corporations that embraces kaizen, describing it as one of their [core principles](https://blog.toyota.co.uk/kaizen-toyota-production-system).  Like many large companies, Toyota regularly makes financial contributions to charitable organizations.  But this year they decided to try something different with one of their recipients, the Food Bank for New York City.  Instead of donating money, they donated engineers to make the food bank more efficient.
 
-!["Soup Kitchen"](http://i.imgur.com/IViiNcm.jpg) "Dinner at a Harlem soup kitchen, where engineers cut the wait time for dinner to 18 minutes from as long as 90.
+!["Soup Kitchen"](https://i.imgur.com/IViiNcm.jpg) "Dinner at a Harlem soup kitchen, where engineers cut the wait time for dinner to 18 minutes from as long as 90.
 
 Feeding 1.5 million hungry people every year is no small feat.  And the Toyota engineers were initially met with skepticism.  After all, how is building cars like feeding mass amounts of people?  The engineers visited a soup kitchen in Harlem where they watched, studied, measured, noted, and--embracing the principles of kaizen--made suggestions for small, localized improvements.
 
-Previously, diners would wait in line an average of 90 minutes to be served.  But after engineers streamlined the seating & serving process with three simple changes, the wait time shrunk to just 18 minutes.  (To read more about how they did it, check out [this great article](http://www.nytimes.com/2013/07/27/nyregion/in-lieu-of-money-toyota-donates-efficiency-to-new-york-charity.html) in The New York Times.)
+Previously, diners would wait in line an average of 90 minutes to be served.  But after engineers streamlined the seating & serving process with three simple changes, the wait time shrunk to just 18 minutes.  (To read more about how they did it, check out [this great article](https://www.nytimes.com/2013/07/27/nyregion/in-lieu-of-money-toyota-donates-efficiency-to-new-york-charity.html) in The New York Times.)
 
 Less waiting meant more people got fed every day.  It didn't cost anything extra, and no major changes were needed.  Just a few localized tweaks made the whole system much more efficient.
 
@@ -55,7 +55,7 @@ I work as a software engineer for a company with several hundred employees.  Eve
 
 A few years ago, I was growing frustrated with a particular module of our software that was difficult for me to maintain.  The engineering team would receive regular bug reports in this area which hinted at big usability problems for our customers.  The problem was that I really didn't know how our customers were using this particular module.  So I stood up at this Q&A session, addressed our CEO, and described my concern.
 
-![a snake](http://i.imgur.com/Lb9YtsL.jpg)
+![a snake](https://i.imgur.com/Lb9YtsL.jpg)
 
 "Well Dave," he responded, "what do you think we should do about it?"
 
