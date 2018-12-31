@@ -1,6 +1,6 @@
 ---
 title: Using go get with Github 2FA
-date: "2018-p07-31T22:40:32.169Z"
+date: "2018-07-31"
 layout: post
 draft: false
 path: "/posts/using-go-get-with-github-2FA/"
@@ -12,7 +12,7 @@ tags:
 description: "How to use go get with private repos and 2FA turned on."
 ---
 
-If you have two-factor-authentication set up on your Github account, you might run into password prompt error when you try to run `go get` on a private repo.  
+If you have two-factor-authentication set up on your Github account, you might run into password prompt error when you try to run `go get` on a private repo.
 
 ```shell
 go get github.com/mycompany/my-private-project
