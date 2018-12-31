@@ -1,6 +1,6 @@
 ---
 title: "Embracing Kaizen: What We Can Learn from a Harlem Soup Kitchen"
-date: "2013-p08-03T22:40:32.169Z"
+date: "2013-08-03"
 layout: post
 draft: false
 path: "/posts/Embracing-Kaizen-What-Developers-Can-Learn-From-A-Harlem-Soup-Kitchen"
