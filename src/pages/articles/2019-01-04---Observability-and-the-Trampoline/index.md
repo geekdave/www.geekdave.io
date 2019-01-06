@@ -1,0 +1,76 @@
+---
+title: Observability and the Trampoline
+date: "2019-01-04"
+layout: post
+draft: false
+path: "/posts/observability-and-the-trampoline/"
+category: "Tips"
+tags:
+  - "Teaching"
+  - "Kids"
+  - "RaspberryPi"
+description: "Teaching Observability to my kids, using a trampoline, a Raspberry Pi, and other fun gadgets."
+---
+
+I started coding when I was about 10 years old, writing BASIC programs on an Apple IIc computer that my teacher somehow arranged for me to borrow over the summer.  Watching the computer faithfully execute my instructions, I felt all-powerful.  Once I had kids of my own, I couldn't wait for the day when I could help them learn to code, too.
+
+# Whoa, what's that?
+
+When the kids see code on the my screen, it rarely elicits questions or excitement.  They're just learning to read, and the jumble of words isn't all that interesting.  But when they see something like this it always makes them stop and ask "what's that?":
+
+![A stacked bar graph of HTTP request latencies](./graph.jpg)
+
+This is a graph produced by a software program called Grafana, which is commonly used for monitoring the health and behavior of complex systems.
+
+I've always been drawn to graphs, too, and the idea that they make it easy to tell a "big picture" story in a small space.  In my current role as a Site Reliability Engineer, I very much enjoy producing graphs like this to help my team visualize our systems.  I wondered if there was a way I could teach Grafana to my kids in a way that would give them that same sense of excitement I got when I was a kid.
+
+# A project is born
+
+Getting kids excited about 95 percentile API response latency didn't seem that promising, so I thought about other things we could monitor and track metrics for.  One day, while the kids were jumping on our small indoor trampoline, I got an idea.  What if we could monitor the trampoline bounces, and graph the activity with Grafana?  The kids agreed this sounded like fun so we set off to make it happen.
+
+So how should we build this?  I'd been hearing for a long time about how these great little $35 computers called Raspberry Pis could be wired up to all kinds of electronics and sensors.  Conveniently I already had a 4-node cluster of Raspberry Pis in the house, which I've been using to learn Kubernetes.  So far I'd only used it for running software, and I didn't know the faintest thing about controlling hardware, or wiring up circuits.
+
+On came the imposter syndrome.
+
+The Raspberry Pi forums are filled with hardcore electronics wizards.  I felt way out of my league.  But I stood tall, feigned total confidence, and posted on a forum for electronic sensor enthusiasts (yes, that's a thing).  I described our goal of instrumenting a trampoline to count jumps, and asked for some general strategic guidance
+
+[write some more about the forum responses, and the suggestion for the ultrasonic sensor]
+
+Seemed like a promising idea, but there was no off-the-shelf solution for an ultrasonic sensor that could output to a Grafana-compatible database.  We'd have to put together a custom hardware and software solution to capture the sensor data using the Raspberry Pi.
+
+# The Tiny Boombox
+
+Now that I had successfully pretended to understand how an ultrasonic range finder works, I figured I'd better actually learn.  Fortunately I stumbled upon [an excellent tutorial](https://www.modmypi.com/blog/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi) on what they do, how they work, and how to wire one up to a Raspberry Pi.
+
+![hc-sr04 ultrasonic rangefinder sensor](./hc-sr04.jpg)
+https://commons.wikimedia.org/wiki/File:HC_SR04_Ultrasonic_sensor_1480322_3_4_HDR_Enhancer.jpg
+
+The tutorial is really great and I highly recommend it.  But if you're in a hurry, here's the gist.  An HC-SR04 sensor is basically a tiny boombox.  Those are actually two speakers that you see.  But instead of thumping out megabass on the low end of the spectrum, these bad boys do the opposite.  They emit ultrasonic sound -- too high pitched for our ears to pick up.  Like a radar system, it works by sending a "ping" (sound wave) out, and calculating how much time it takes for it to bounce off of something and return back to a receiver on the sensor.  Once you have this timing information, you can send it over a wire to a Raspberry Pi.  On the Raspberry Pi, you write some code that uses some cool physics calculations about how fast sound moves through air to compute the distance to that object, and voila!
+
+# Let's Build This
+
+Now that I had a general design, it was time to assign some engineers to work on implementation.  My 4-year-old daughter and 6-year-old son were currently unassigned so I enlisted their help.  The task: connect the HC-SR04 sensor to the Raspberry Pi so that we could control it with software, and send the data to Grafana to graph.
+
+Like many new projects related to computer software, It started off with an immediately-show-stopping problem.  The Raspberry Pi and the HC-SR04 sensor have _incompatible voltages_.  If you just hook a wire between the sensor and the Pi, you'll immediately fry the sensor.  This is because the sensor operates on merely 3.4 volts, and the Raspberry Pi outputs a sizzlin' 5 volts.  Fortunately, there was a workaround.  But it was going to involve us rolling up our sleeves, and going full-MacGyver with some wires and circuits.
+
+We learned that a _resistor_ is a tiny tootsie-roll-shaped thing that takes in a higher amount of electricity on one side, and puts out a lower amount of electricity on the other side.  Using a couple of resistors, we could "step down" the voltage from the Pi to the sensor.  One option for wiring this up would be to use a soldering iron, and graft the proper resistors onto the wire.  But there was also an option that was less likely to result in an ER trip.
+
+![a breadboard](./breadboard.jpg)
+https://commons.wikimedia.org/wiki/File:Electronics-White-Breadboard.jpg
+
+We learned about something new called a [breadboard](https://www.raspberrypi.org/magpi/breadboard-tutorial/) and were somewhat disappointed to learn that we didn't get to eat any bread.  We got over that fairly quickly, and learned that breadboards are small plastic rectangles with a bunch of holes in them.  You can push wires into the holes and it connects them with the other holes in convenient ways.  Breadboards are useful to us because they allow us to connect resistors to our sensor without using a soldering iron!
+
+We followed [another great guide on how to wire up](https://www.modmypi.com/blog/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi) the HC-SR04 to the Pi using a breadboard, resistors, and jumper wire.
+
+[pics of kids wiring up pi]
+
+
+# Shopping List
+
+1. Raspberry Pi 3B (or 3B+)
+2. HC-SR04 Ultrasonic Sensor
+3. Breadboard
+4. Jumper wires
+5. 1kΩ Resistor
+6. 2kΩ Resistor
+
