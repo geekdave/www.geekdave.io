@@ -64,7 +64,6 @@ We followed [another great guide on how to wire up](https://www.modmypi.com/blog
 
 [pics of kids wiring up pi]
 
-
 # Shopping List
 
 1. Raspberry Pi 3B (or 3B+)
@@ -74,3 +73,62 @@ We followed [another great guide on how to wire up](https://www.modmypi.com/blog
 5. 1kΩ Resistor
 6. 2kΩ Resistor
 
+# Input, Processing, Output
+
+https://www.youtube.com/watch?v=z9ycsza7K2U
+
+Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
+
+I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  The full code can be found here, but we'll break it down line by line.
+
+```nodejs
+const Gpio = require('pigpio').Gpio;
+```
+
+First we import the pigpio library, which provides a nice NodeJS wrapper on top of the GPIO libraries which are written in C [citation needed].
+
+Next, we register a trigger object on GPIO pin 23, which is wired up to... you guessed it... the `Trig` pin on the HC-SR04!
+
+```
+const trigger = new Gpio(23, { mode: Gpio.OUTPUT });
+```
+
+This allows us to send a signal to the sensor like so:
+
+```
+trigger.trigger(10, 1)
+```
+
+The trigger has two states, low (0) and high (1).  In the case of the HC-SR04, "high" means "I'm asking for a measurement!" and "low" means "relax - you're on break".
+
+Next we register an echo object on port 24 which is connected to the similarly-named `Echo` pin on the HC-SR04:
+
+```
+const echo = new Gpio(24, { mode: Gpio.INPUT, alert: true });
+```
+
+This allows us to write code like this:
+
+```
+    echo.on('alert', (level, tick) => {
+        if (level == 1) {
+            startTick = tick;
+        } else {
+            const endTick = tick;
+            const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
+            const distanceCM = diff / 2 / MICROSECONDS_PER_CM
+```
+
+Let's break down what's going on.  First we register an "event handler" using `echo.on`.  This means that whenever a signal is received from the HC-SR04, this function will get called.
+
+The first time an event is received, it's the sensor sending a value of "1" (or "high" as we learned in the previous code example).  The meaning of the "high" signal is "hey, I just sent out a sound wave ping!"  When the sensor receives the sound wave ping bounced back to itself, it sends another signal but this time with a value of "0" or "low".  We can measure the time difference between when the first and second signal were received to figure out how much time it took the signal to bounce from the sensor to its target and back.
+
+We then divide this roundtrip time by 2 to get the one-way time, and then divide again by a magical constant that tells us how quickly sound moves through the air (assuming a certain temperature -- does altitude also make a difference?)
+
+Now if we put the sensor under the trampoline...
+
+[console output of measurements]
+
+* how GPIO works
+* how software sends ping and listens for response
+* measuring distance with science (figure out elevation question)
