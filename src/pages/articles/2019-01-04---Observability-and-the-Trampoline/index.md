@@ -79,7 +79,7 @@ https://www.youtube.com/watch?v=z9ycsza7K2U
 
 Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
 
-I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  The full code can be found here, but we're also going to break it down line by line.
+I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  [The full code can be found here](https://github.com/geekdave/trampoline), but we're also going to break it down line by line.
 
 ```nodejs
 const Gpio = require('pigpio').Gpio;
@@ -150,6 +150,8 @@ A mostly uninterrupted 15 min streak:
 Adding a high score to keep track of highest jumps per minute this session.  Pump up the bar on the right!
 
 ![](./graph-jpm.jpg)
+
+
 
 
 * measuring distance with science (figure out elevation question)
