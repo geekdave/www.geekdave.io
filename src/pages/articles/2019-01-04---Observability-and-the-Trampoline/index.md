@@ -45,7 +45,7 @@ Now that I had successfully pretended to understand how an ultrasonic range find
 ![hc-sr04 ultrasonic rangefinder sensor](./hc-sr04.jpg)
 https://commons.wikimedia.org/wiki/File:HC_SR04_Ultrasonic_sensor_1480322_3_4_HDR_Enhancer.jpg
 
-The tutorial is really great and I highly recommend it.  But if you're in a hurry, here's the gist.  An HC-SR04 sensor is basically a tiny boombox.  Those are actually two speakers that you see.  But instead of thumping out megabass on the low end of the spectrum, these bad boys do the opposite.  They emit ultrasonic sound -- too high pitched for our ears to pick up.  Like a radar system, it works by sending a "ping" (sound wave) out, and calculating how much time it takes for it to bounce off of something and return back to a receiver on the sensor.  Once you have this timing information, you can send it over a wire to a Raspberry Pi.  On the Raspberry Pi, you write some code that uses some cool physics calculations about how fast sound moves through air to compute the distance to that object, and voila!
+The tutorial is really great and I highly recommend it.  But if you're in a hurry, here's the gist.  An HC-SR04 sensor is basically a tiny boombox.  Those are actually two speakers that you see.  But instead of thumping out megabass on the low end of the spectrum, these bad boys do the opposite.  They emit ultrasonic sound -- too high pitched for our ears to pick up.  Like a radar system, it's used to send a "ping" (sound wave) out.  Next, it waits for the sound to bounce off of something and echo back to a receiver on the sensor.  Using software that we run on the Raspberry Pi, we control when the ping is sent, listen for the echo, and calculate the time difference between the two.  Once you have this timing information, you use some cool physics calculations about how fast sound moves through air to compute the distance to that object.  I thought that there must be a way to track changes on these numbers to infer trampoline jumps per-minute, and incentivize some good exercise.
 
 # Let's Build This
 
@@ -79,7 +79,7 @@ https://www.youtube.com/watch?v=z9ycsza7K2U
 
 Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
 
-I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  The full code can be found here, but we'll break it down line by line.
+I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  The full code can be found here, but we're also going to break it down line by line.
 
 ```nodejs
 const Gpio = require('pigpio').Gpio;
@@ -121,7 +121,7 @@ This allows us to write code like this:
 
 Let's break down what's going on.  First we register an "event handler" using `echo.on`.  This means that whenever a signal is received from the HC-SR04, this function will get called.
 
-The first time an event is received, it's the sensor sending a value of "1" (or "high" as we learned in the previous code example).  The meaning of the "high" signal is "hey, I just sent out a sound wave ping!"  When the sensor receives the sound wave ping bounced back to itself, it sends another signal but this time with a value of "0" or "low".  We can measure the time difference between when the first and second signal were received to figure out how much time it took the signal to bounce from the sensor to its target and back.
+The first time an event is received, it's the sensor sending a value of "1" (or "high" as we learned in the previous code example).  The meaning of the "high" signal is "hey, I just sent out the ping!"  When the sensor receives the ping bounced back to itself, it sends another signal but this time with a value of "0" or "low".  We can measure the time difference between when the first and second signal were received to figure out how much time it took the signal to bounce from the sensor to its target and back.
 
 We then divide this roundtrip time by 2 to get the one-way time, and then divide again by a magical constant that tells us how quickly sound moves through the air (assuming a certain temperature -- does altitude also make a difference?)
 
@@ -129,6 +129,27 @@ Now if we put the sensor under the trampoline...
 
 [console output of measurements]
 
-* how GPIO works
-* how software sends ping and listens for response
+We see on the console that first the program computes the baseline trampoline height by taking 3 successive measurements and averaging them together.  After that, we are getting a new measurement every 50 milliseconds.  We send these values to InfluxDB to store them over time.  Then we can plot them with Grafana!
+
+I asked my son what he thought the graph would look like.  He said "a sawtooth!" referring to a graph of a production system he had seen on my screen a few weeks prior.  We pulled up the graph, saw a mostly flat line.  Then he started jumping...
+
+![](jump.gif)
+
+Here we see the baseline 18 cm (plus or minus a few millimeters) and then when he started jumping we saw..... _a sawtooth!_  We were both super excited that his hypothesis proved true.
+
+![line graph of distance measurements from ground to trampoline, showing peaks and valleys](./graph-distance.jpg)
+
+* [Write about how to infer discrete jumps using thresholds and sampling.  Costco samples!!!]
+
+![](./graph-realtime.jpg)
+
+A mostly uninterrupted 15 min streak:
+
+![dot graph of detected peaks and valleys](./graph-peaks-valleys-dots.jpg)
+
+Adding a high score to keep track of highest jumps per minute this session.  Pump up the bar on the right!
+
+![](./graph-jpm.jpg)
+
+
 * measuring distance with science (figure out elevation question)
