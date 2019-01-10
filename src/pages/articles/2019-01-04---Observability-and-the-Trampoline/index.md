@@ -79,6 +79,14 @@ https://www.youtube.com/watch?v=z9ycsza7K2U
 
 Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
 
+![wiring diagram](./diagram.jpg)
+Wiring diagram showing the inputs and outputs for the sensor.
+
+* vcc : Voltage at the common collector (power supply)
+* trig: Data input that receives signal from the Pi requesting a measurement
+* echo: Data output that sends back signal to the Pi when a ping is sent and again when the ping echo is received
+* gnd: Ground wire (completes the circuit with vcc)
+
 I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  [The full code can be found here](https://github.com/geekdave/trampoline), but we're also going to break it down line by line.
 
 ```nodejs
