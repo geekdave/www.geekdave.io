@@ -83,23 +83,29 @@ Connecting jumper wires to the sensor             |  Using the breadboard to add
 
 # Input, Processing, Output
 
+Much about how computers work can be explain in terms of inputs, outputs, and the processing that happens in between.  Our kids favorite educational cartoon characters _The Storybots_ happen to have a catchy little jingle about these concepts which I highly recommend:
+
 https://open.spotify.com/track/56PeyadbUnz7wxQWa5xHeP
 
-https://www.youtube.com/watch?v=z9ycsza7K2U
+So what are the inputs and outputs for our project?
 
 Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
+
+![wiring diagram](./gpio.jpg)
+
+Following the wiring instructions in the blog linked above, we connected the GPIO pins, through the breadboard, through some resistors, to the pins on the HC-SR04 sensor.  The sensor has 4 pins and each has an important job.  We created our own wiring diagram to learn more about what each pin does:
 
 ![wiring diagram](./diagram.jpg)
 Wiring diagram showing the inputs and outputs for the sensor.
 
-* vcc : Voltage at the common collector (power supply)
-* trig: Data input that receives signal from the Pi requesting a measurement
-* echo: Data output that sends back signal to the Pi when a ping is sent and again when the ping echo is received
-* gnd: Ground wire (completes the circuit with vcc)
+* `vcc` : This stands for _Voltage at the common collector_ which is a fancy way of saying, "This is where you plug in the power".  The 3.4 volts of juice that come from the Pi's output become the power input for the sensor, giving it the electricity to function.
+* `trig`: This is another input on the sensor, but instead of a high-voltage power input, this is a low voltage data input.  When software running on the Raspberry Pi makes a request for a new distance measurement, the Pi sends a signal to the sensor on this pin.  It's basically like someone poking you and saying "Hey! Another measurement please!"
+* `echo`: This is an _output_ from the sensor, which sends a signal back to the Pi, indicating how much time it took for the sound wave to bounce off something and come back.
+* `gnd`: This is another output called the ground wire  which completes the circuit with `vcc` pin, allowing electricity to flow.
 
 I'm primarily a NodeJS developer, and lucky for us, there is some great NodeJS support for both the Raspberry Pi's GPIO system and the HC-SR04 sensor.  [The full code can be found here](https://github.com/geekdave/trampoline), but we're also going to break it down line by line.
 
-```nodejs
+```js
 const Gpio = require('pigpio').Gpio;
 ```
 
@@ -113,21 +119,23 @@ const trigger = new Gpio(23, { mode: Gpio.OUTPUT });
 
 This allows us to send a signal to the sensor like so:
 
-```
+```js
 trigger.trigger(10, 1)
 ```
 
-The trigger has two states, low (0) and high (1).  In the case of the HC-SR04, "high" means "I'm asking for a measurement!" and "low" means "relax - you're on break".
+The trigger has two states, low (0) and high (1).  In the case of the HC-SR04, "high" means "I'm asking for a measurement!" and "low" means "relax - you're on break".  This allows us to send requests to the sensor whenever we want a measurement.
 
-Next we register an echo object on port 24 which is connected to the similarly-named `Echo` pin on the HC-SR04:
+Now when you ask a question, you'd better be prepared to listen for the answer.  The next section of code allows us to listen for a response from the sensor.
 
-```
+We register an echo object on pin 24 which is connected to the similarly-named `Echo` pin on the HC-SR04:
+
+```js
 const echo = new Gpio(24, { mode: Gpio.INPUT, alert: true });
 ```
 
 This allows us to write code like this:
 
-```
+```js
     echo.on('alert', (level, tick) => {
         if (level == 1) {
             startTick = tick;
@@ -168,8 +176,3 @@ A mostly uninterrupted 15 min streak:
 Adding a high score to keep track of highest jumps per minute this session.  Pump up the bar on the right!
 
 ![](./graph-jpm.jpg)
-
-
-
-
-* measuring distance with science (figure out elevation question)
