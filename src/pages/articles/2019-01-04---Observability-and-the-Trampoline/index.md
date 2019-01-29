@@ -83,6 +83,8 @@ Connecting jumper wires to the sensor             |  Using the breadboard to add
 
 # Input, Processing, Output
 
+https://open.spotify.com/track/56PeyadbUnz7wxQWa5xHeP
+
 https://www.youtube.com/watch?v=z9ycsza7K2U
 
 Let's break down what's connected to what here.  First, on the Raspberry Pi side, there are a series of pins called GPIO, which stands for *General Purpose Input & Output*.  These pins allow you to connect about a million different electronic devices to your Pi.  As the name implies, you can connect a jumper wire to an *input* to listen for signals from a device, process that input with software, and and connect to an *output* to send a signal to the device.
