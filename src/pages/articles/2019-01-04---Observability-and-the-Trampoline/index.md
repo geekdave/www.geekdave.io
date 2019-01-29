@@ -12,6 +12,8 @@ tags:
 description: "Teaching Observability to my kids, using a trampoline, a Raspberry Pi, and other fun gadgets."
 ---
 
+![The full setup](./setup.jpg)
+
 I started coding when I was about 10 years old, writing BASIC programs on an Apple IIc computer that my teacher somehow arranged for me to borrow over the summer.  Watching the computer faithfully execute my instructions, I felt all-powerful.  Once I had kids of my own, I couldn't wait for the day when I could help them learn to code, too.
 
 # Whoa, what's that?
@@ -32,9 +34,9 @@ So how should we build this?  I'd been hearing for a long time about how these g
 
 On came the imposter syndrome.
 
-The Raspberry Pi forums are filled with hardcore electronics wizards.  I felt way out of my league.  But I stood tall, feigned total confidence, and posted on a forum for electronic sensor enthusiasts (yes, that's a thing).  I described our goal of instrumenting a trampoline to count jumps, and asked for some general strategic guidance
+The Raspberry Pi forums are filled with hardcore electronics wizards.  I felt way out of my league.  But I stood tall, feigned total confidence, and posted on a forum for electronic sensor enthusiasts (yes, that's a thing).  I described our goal of instrumenting a trampoline to count jumps, and asked for some general strategic guidance.
 
-[write some more about the forum responses, and the suggestion for the ultrasonic sensor]
+I got several responses with some great ideas, but one stood out as being very simple, cheap, and sounded really cool: an ultrasonic rangefinder!  These are used to measure distance, specifically the distance between the sensor and whatever it's pointed at.  They are commonly used in robotics to detect what's around them.
 
 Seemed like a promising idea, but there was no off-the-shelf solution for an ultrasonic sensor that could output to a Grafana-compatible database.  We'd have to put together a custom hardware and software solution to capture the sensor data using the Raspberry Pi.
 
@@ -47,11 +49,15 @@ https://commons.wikimedia.org/wiki/File:HC_SR04_Ultrasonic_sensor_1480322_3_4_HD
 
 The tutorial is really great and I highly recommend it.  But if you're in a hurry, here's the gist.  An HC-SR04 sensor is basically a tiny boombox.  Those are actually two speakers that you see.  But instead of thumping out megabass on the low end of the spectrum, these bad boys do the opposite.  They emit ultrasonic sound -- too high pitched for our ears to pick up.  Like a radar system, it's used to send a "ping" (sound wave) out.  Next, it waits for the sound to bounce off of something and echo back to a receiver on the sensor.  Using software that we run on the Raspberry Pi, we control when the ping is sent, listen for the echo, and calculate the time difference between the two.  Once you have this timing information, you use some cool physics calculations about how fast sound moves through air to compute the distance to that object.  I thought that there must be a way to track changes on these numbers to infer trampoline jumps per-minute, and incentivize some good exercise.
 
+![hc-sr04 ultrasonic rangefinder sensor](./sensor-reflection.png)
+
 # Let's Build This
 
 Now that I had a general design, it was time to assign some engineers to work on implementation.  My 4-year-old daughter and 6-year-old son were currently unassigned so I enlisted their help.  The task: connect the HC-SR04 sensor to the Raspberry Pi so that we could control it with software, and send the data to Grafana to graph.
 
 Like many new projects related to computer software, It started off with an immediately-show-stopping problem.  The Raspberry Pi and the HC-SR04 sensor have _incompatible voltages_.  If you just hook a wire between the sensor and the Pi, you'll immediately fry the sensor.  This is because the sensor operates on merely 3.4 volts, and the Raspberry Pi outputs a sizzlin' 5 volts.  Fortunately, there was a workaround.  But it was going to involve us rolling up our sleeves, and going full-MacGyver with some wires and circuits.
+
+
 
 We learned that a _resistor_ is a tiny tootsie-roll-shaped thing that takes in a higher amount of electricity on one side, and puts out a lower amount of electricity on the other side.  Using a couple of resistors, we could "step down" the voltage from the Pi to the sensor.  One option for wiring this up would be to use a soldering iron, and graft the proper resistors onto the wire.  But there was also an option that was less likely to result in an ER trip.
 
@@ -62,7 +68,9 @@ We learned about something new called a [breadboard](https://www.raspberrypi.org
 
 We followed [another great guide on how to wire up](https://www.modmypi.com/blog/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi) the HC-SR04 to the Pi using a breadboard, resistors, and jumper wire.
 
-[pics of kids wiring up pi]
+Connecting jumper wires to the sensor             |  Using the breadboard to add resistors
+:-------------------------:|:-------------------------:
+![](./assembly1.jpg)  |  ![](./assembly2.jpg)
 
 # Shopping List
 
