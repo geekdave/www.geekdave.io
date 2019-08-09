@@ -101,4 +101,8 @@ We recently had installed a few Phillips Hue color changing light bulbs in our l
 
 I had read that in addition to using the app on my phone to control the color of the lights that there was also an API to control them programmatically.  But how could we connect the dots between the light bulbs and Prometheus?  Luckily, there is a great software program called Node-Red which is designed exactly for connecting things together in an "if this, then that" kind of way.  And there was a plugin for Node-Red called Hue Magic, which controls Philips Hue light bulbs!
 
- 
+We were starting to have all the pieces we needed; we just had to put them together!
+
+# Active Listening
+
+When Prometheus fires an alert, it doesn't make any noise or light up any lights by itself.  All it knows how to do is send a message to a destination of your choosing.  This message takes the form of an HTTP Request, the same type of message that your web browser sent to my blog server when you decided you wanted to read this post!  An HTTP Request is a common way for one computer to ask another computer for some information, or ask it to do something.  
