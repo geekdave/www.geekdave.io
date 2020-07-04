@@ -111,7 +111,7 @@ Add a new datasource http://localhost:8086 (or substitute the hostname running I
 
 Create a new dashboard, select InfluxDB as the datasource.  And add the following query, but change your id to match the sensor ID you observed earlier.
 
-![InfluxDB query](./setup.png)
+![InfluxDB query](./query.png)
 
 You should now see a graph like this!
 
