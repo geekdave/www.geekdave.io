@@ -38,3 +38,7 @@ Painted the walls myself to save on some costs, and it was oddly therapeutic!
 All moved in!  The heater has to work much less to keep the room warm now.  The kids are helping to decorate. :)
 
 ![D400E152-39C7-4B76-99C6-8D8A10E28F24_1_105_c](https://user-images.githubusercontent.com/1438478/107296232-cec0ad00-6a25-11eb-8516-4512096b4988.jpeg)
+
+Added drums, plants, and shelves!
+
+![office](https://user-images.githubusercontent.com/1438478/115630912-b7216280-a2b9-11eb-9a8d-08d007782ad3.jpeg)
