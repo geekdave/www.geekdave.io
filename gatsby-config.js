@@ -1,40 +1,37 @@
 module.exports = {
   siteMetadata: {
     url: 'https://lumen.netlify.com',
-    title: 'Dave Cadwallader\'s Blog',
+    title: "Dave Cadwallader's Blog",
     subtitle: 'Thoughts about technology and teaching',
     copyright: '© All rights reserved.',
     disqusShortname: '',
     menu: [
       {
         label: 'Articles',
-        path: '/'
+        path: '/',
       },
       {
         label: 'About me',
-        path: '/about/'
+        path: '/about/',
       },
       {
         label: 'Contact me',
-        path: '/contact/'
-      }
+        path: '/contact/',
+      },
     ],
     author: {
       name: 'Dave Cadwallader',
       twitter: 'geek_dave',
       github: 'geekdave',
-      telegram: '#',
-      rss: '#',
-      vk: '#'
-    }
+    },
   },
   plugins: [
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/src/pages`,
-        name: 'pages'
-      }
+        name: 'pages',
+      },
     },
     {
       resolve: 'gatsby-plugin-feed',
@@ -52,16 +49,16 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => (
+            serialize: ({ query: { site, allMarkdownRemark } }) =>
               allMarkdownRemark.edges.map(edge =>
                 Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.frontmatter.description,
                   date: edge.node.frontmatter.date,
                   url: site.siteMetadata.site_url + edge.node.fields.slug,
                   guid: site.siteMetadata.site_url + edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.html }]
-                }))
-            ),
+                  custom_elements: [{ 'content:encoded': edge.node.html }],
+                })
+              ),
             query: `
               {
                 allMarkdownRemark(
@@ -87,10 +84,10 @@ module.exports = {
                 }
               }
             `,
-            output: '/rss.xml'
-          }
-        ]
-      }
+            output: '/rss.xml',
+          },
+        ],
+      },
     },
     {
       resolve: 'gatsby-transformer-remark',
@@ -99,31 +96,31 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 960
-            }
+              maxWidth: 960,
+            },
           },
           {
             resolve: 'gatsby-remark-responsive-iframe',
-            options: { wrapperStyle: 'margin-bottom: 1.0725rem' }
+            options: { wrapperStyle: 'margin-bottom: 1.0725rem' },
           },
           'gatsby-remark-embed-spotify',
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',
-          'gatsby-remark-smartypants'
-        ]
-      }
+          'gatsby-remark-smartypants',
+        ],
+      },
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-google-analytics',
-      options: { trackingId: 'UA-73379983-2' }
+      options: { trackingId: 'UA-73379983-2' },
     },
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`roboto\:400,400i,500,700`]
-      }
+        fonts: [`roboto\:400,400i,500,700`],
+      },
     },
     {
       resolve: 'gatsby-plugin-sitemap',
@@ -149,18 +146,18 @@ module.exports = {
           }`,
         output: '/sitemap.xml',
         serialize: ({ site, allSitePage }) =>
-          allSitePage.edges.map((edge) => {
+          allSitePage.edges.map(edge => {
             return {
               url: site.siteMetadata.url + edge.node.path,
               changefreq: 'daily',
-              priority: 0.7
-            };
-          })
-      }
+              priority: 0.7,
+            }
+          }),
+      },
     },
     'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-postcss-sass'
-  ]
-};
+    'gatsby-plugin-postcss-sass',
+  ],
+}
